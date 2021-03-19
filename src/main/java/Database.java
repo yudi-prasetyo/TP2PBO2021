@@ -34,7 +34,8 @@ public class Database {
         }
     }
     
-    public ArrayList<Mobil> getListMobil() {
+    public ArrayList<Mobil> getListMobil()
+    {
         try {
             ArrayList<Mobil> listMobil = new ArrayList<>();
             Class.forName("com.mysql.cj.jdbc.Driver");
