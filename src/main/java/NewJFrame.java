@@ -11,15 +11,49 @@
  */
 
 import Mobil.Mobil;
+import Database.Database;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 public class NewJFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form NewJFrame
      */
+    ArrayList<Mobil> listMobil;
+    String header[] = new String[]{"No", "Merk", "Plat", "Warna", "Jenis"};
+    DefaultTableModel dtm;
+    Database db;
     
     public NewJFrame() {
         initComponents();
-        Mobil mobil = new Mobil("a", "b", "c", "d");
+        listMobil = new ArrayList<>();
+        
+        db = new Database();
+        
+        listMobil = db.getListMobil();
+        
+        dtm = new DefaultTableModel(header, 0);
+        addDTM(listMobil);
+        
+        jTable1.setModel(dtm);
+        
+        if (listMobil.isEmpty()) {
+            btnTable.setVisible(false);
+            btnInfo.setVisible(false);
+        }
+    }
+    
+    private void addDTM(ArrayList<Mobil> listMobil) {
+        dtm.setRowCount(0);
+        for (int i = 0; i < listMobil.size(); i++) {
+                Object[] objs = {i+1, listMobil.get(i).getMerk(),
+                    listMobil.get(i).getPlat(),
+                    listMobil.get(i).getWarna(),
+                    listMobil.get(i).getJenis()
+                };
+                dtm.addRow(objs);
+        }
     }
 
     /**
@@ -39,21 +73,30 @@ public class NewJFrame extends javax.swing.JFrame {
         jLayeredPane = new javax.swing.JLayeredPane();
         panelForm = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        tMerk = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        tPlat = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        tWarna = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        tJenis = new javax.swing.JComboBox<>();
         btnSubmit = new javax.swing.JButton();
         panelTable = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         panelInfo = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 51, 153));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         navbar.setBackground(new java.awt.Color(0, 51, 153));
 
@@ -116,7 +159,7 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Jenis");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Biasa", "Balap", "Sport", "Truk" }));
+        tJenis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Biasa", "Balap", "Sport", "Truk" }));
 
         btnSubmit.setText("Submit");
         btnSubmit.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -133,7 +176,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addGap(129, 129, 129)
                 .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tWarna, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel1)
                         .addGroup(panelFormLayout.createSequentialGroup()
                             .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -142,9 +185,9 @@ public class NewJFrame extends javax.swing.JFrame {
                                 .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING))
                             .addGap(110, 110, 110)
                             .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jComboBox1, 0, 152, Short.MAX_VALUE)
-                                .addComponent(jTextField2)
-                                .addComponent(jTextField1))))
+                                .addComponent(tJenis, 0, 152, Short.MAX_VALUE)
+                                .addComponent(tPlat)
+                                .addComponent(tMerk))))
                     .addComponent(btnSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(209, Short.MAX_VALUE))
         );
@@ -154,35 +197,37 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addGap(142, 142, 142)
                 .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tMerk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tPlat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tWarna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tJenis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(47, 47, 47)
                 .addComponent(btnSubmit)
                 .addContainerGap(158, Short.MAX_VALUE))
         );
 
-        panelTable.setBackground(new java.awt.Color(255, 51, 51));
+        panelTable.setBackground(new java.awt.Color(255, 255, 255));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "No.", "Merk", "Plat", "Warna", "Jenis"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -192,7 +237,7 @@ public class NewJFrame extends javax.swing.JFrame {
         panelTableLayout.setHorizontalGroup(
             panelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTableLayout.createSequentialGroup()
-                .addContainerGap(91, Short.MAX_VALUE)
+                .addContainerGap(94, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(88, 88, 88))
         );
@@ -204,17 +249,53 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
-        panelInfo.setBackground(new java.awt.Color(51, 51, 255));
+        panelInfo.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel5.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel5.setText("Nama :");
+
+        jLabel6.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel6.setText("NIM   :");
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel7.setText("Yudi Prasetyo");
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel8.setText("1905348");
 
         javax.swing.GroupLayout panelInfoLayout = new javax.swing.GroupLayout(panelInfo);
         panelInfo.setLayout(panelInfoLayout);
         panelInfoLayout.setHorizontalGroup(
             panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 631, Short.MAX_VALUE)
+            .addGroup(panelInfoLayout.createSequentialGroup()
+                .addGap(179, 179, 179)
+                .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel5))
+                .addGap(125, 125, 125)
+                .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel7))
+                .addContainerGap(166, Short.MAX_VALUE))
         );
         panelInfoLayout.setVerticalGroup(
             panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 511, Short.MAX_VALUE)
+            .addGroup(panelInfoLayout.createSequentialGroup()
+                .addGap(248, 248, 248)
+                .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel7))
+                .addGap(35, 35, 35)
+                .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel8))
+                .addContainerGap(178, Short.MAX_VALUE))
         );
 
         jLayeredPane.setLayer(panelForm, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -292,8 +373,39 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void btnSubmitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSubmitMouseClicked
         // TODO add your handling code here:
-        
+
+        if (!tMerk.getText().isEmpty() && !tPlat.getText().isEmpty() && !tWarna.getText().isEmpty()) {
+            String merk = tMerk.getText();
+            String plat = tPlat.getText();
+            String warna = tWarna.getText();
+            String jenis = (String) tJenis.getSelectedItem();
+
+            Mobil mobil = new Mobil(merk, plat, warna, jenis);
+            mobil.save();
+            listMobil.add(mobil);
+//            dtm.setRowCount(0); //reset data model
+            int last = listMobil.size() - 1;
+//            for (int i = 0; i < listMobil.size(); i++) {
+            Object[] objs = {last + 1, mobil.getMerk(),
+                    mobil.getPlat(),
+                    mobil.getWarna(),
+                    mobil.getJenis()
+            };
+            dtm.addRow(objs);
+//            }
+            tMerk.setText("");
+            tPlat.setText("");
+            tWarna.setText("");
+            
+            btnTable.setVisible(true);
+            btnInfo.setVisible(true);
+        }
     }//GEN-LAST:event_btnSubmitMouseClicked
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
@@ -335,21 +447,25 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnInfo;
     private javax.swing.JButton btnSubmit;
     private javax.swing.JButton btnTable;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLayeredPane jLayeredPane;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JPanel navbar;
     private javax.swing.JPanel panelForm;
     private javax.swing.JPanel panelInfo;
     private javax.swing.JPanel panelTable;
+    private javax.swing.JComboBox<String> tJenis;
+    private javax.swing.JTextField tMerk;
+    private javax.swing.JTextField tPlat;
+    private javax.swing.JTextField tWarna;
     // End of variables declaration//GEN-END:variables
 }
