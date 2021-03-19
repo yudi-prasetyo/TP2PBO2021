@@ -1,0 +1,14 @@
+Saya Yudi Prasetyo mengerjakan Tugas Praktikum 2 dalam mata kuliah 
+Desain dan Pemrograman Berorientasi Objek untuk kerberkahanNya maka saya 
+tidak melakukan kecurangan seperti yang telah dispesifikasikan, Aamiin.
+
+Kesulitan:
+- Koneksi MySQL dengan Java
+- Layouting pada Java Swing yang terkadang berantakan
+- Melakukan query pada JDBC (Java Data Base Connectivity)
+
+Hal yang baru dipelajari:
+- Semua solusi yang didapat dari kesulitan-kesulitan di atas
+- Menggunakan NetBeans IDE
+- Menambahkan gambar pada Java Swing
+- Layouting panel
